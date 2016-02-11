@@ -1,0 +1,109 @@
+﻿<Window x:Class="WpfTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfTest"
+        Title="CSGO Extern HUD" Height="350" Width="525" Topmost="True">
+    <Window.Resources>
+        <local:NumberToItemsConverter x:Key="NumberToItemsConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Border BorderThickness="0,0,0,2" BorderBrush="#FFF3F3F3">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ProviderComponentIsActive, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                        <TextBlock Margin="4 2">Provider:</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding ProviderName}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding PlayerComponentIsActive, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                        <TextBlock Margin="4 2">Player:</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding PlayerName}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding MapComponentIsActive, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                        <TextBlock Margin="4 2">Map:</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding MapName}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Visibility="{Binding PlayerStateComponentIsActive, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                    <StackPanel Margin="5 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image VerticalAlignment="Center" Height="32" Width="32" RenderOptions.BitmapScalingMode="HighQuality" Source="health_medicine_emergency.png"/>
+                            <TextBlock Margin="3 0" VerticalAlignment="Center" FontSize="16" Text="{Binding PlayerStateComponent.Health}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Image VerticalAlignment="Center" Height="34" Width="34" RenderOptions.BitmapScalingMode="HighQuality" Source="stock-illustration-24895855-war-silhouette-icon.jpg" Visibility="{Binding PlayerStateComponent.Helmet, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Image VerticalAlignment="Center" Height="32" Width="32" RenderOptions.BitmapScalingMode="HighQuality" Source="bulletproof_vest.png"/>
+                            <TextBlock Margin="3 0" VerticalAlignment="Center" FontSize="16" Text="{Binding PlayerStateComponent.Armor}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding LowAmmo, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" >
+                            <Image Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" Source="warning.png"/>
+                            <TextBlock Margin="3 0" VerticalAlignment="Center" FontSize="16" Text="Low Ammo" Foreground="#FFD60000"/>
+                        </StackPanel>
+                        <!--<ListView ItemsSource="{Binding PlayerStateComponent.RoundKills, Converter={StaticResource NumberToItemsConverter}, Mode=OneWay}"
+                                  BorderThickness="0"
+                                  Padding="0"
+                                   Margin="0">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Width="24" Height="24" Source="100px-Skull-Icon.svg.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <ListView ItemsSource="{Binding PlayerStateComponent.RoundKillsHS, Converter={StaticResource NumberToItemsConverter}, Mode=OneWay}"
+                                  BorderThickness="0"
+                                  Padding="0"
+                                   Margin="0">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Width="24" Height="24" Source="100px-Skull-Icon.svg_hs.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>-->
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1" Visibility="{Binding WeaponComponentIsActive, Converter={StaticResource BooleanToVisibilityConverter}}" >
+
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1" Visibility="{Binding BombIsPlanted, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" HorizontalAlignment="Center" FontSize="28" Content="Bomb detonation in"/>
+                <TextBlock Foreground="{Binding AlertBrush}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="90" Text="{Binding BombRemainingTime}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

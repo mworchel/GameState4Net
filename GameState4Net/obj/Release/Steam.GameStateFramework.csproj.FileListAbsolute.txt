@@ -1,0 +1,8 @@
+I:\Programming\Projects\CSGOExtendedHUD\SteamGameStateLibrary\SteamGameStateLibrary\bin\Release\Steam.GameStateFramework.dll
+I:\Programming\Projects\CSGOExtendedHUD\SteamGameStateLibrary\SteamGameStateLibrary\bin\Release\Steam.GameStateFramework.pdb
+I:\Programming\Projects\CSGOExtendedHUD\SteamGameStateLibrary\SteamGameStateLibrary\bin\Release\Grapevine.dll
+I:\Programming\Projects\CSGOExtendedHUD\SteamGameStateLibrary\SteamGameStateLibrary\bin\Release\Newtonsoft.Json.dll
+I:\Programming\Projects\CSGOExtendedHUD\SteamGameStateLibrary\SteamGameStateLibrary\bin\Release\Newtonsoft.Json.xml
+I:\Programming\Projects\CSGOExtendedHUD\SteamGameStateLibrary\SteamGameStateLibrary\obj\Release\Steam.GameStateFramework.csprojResolveAssemblyReference.cache
+I:\Programming\Projects\CSGOExtendedHUD\SteamGameStateLibrary\SteamGameStateLibrary\obj\Release\Steam.GameStateFramework.dll
+I:\Programming\Projects\CSGOExtendedHUD\SteamGameStateLibrary\SteamGameStateLibrary\obj\Release\Steam.GameStateFramework.pdb

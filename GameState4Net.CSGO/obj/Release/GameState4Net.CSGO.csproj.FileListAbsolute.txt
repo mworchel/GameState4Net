@@ -1,0 +1,10 @@
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\bin\Release\GameState4Net.CSGO.dll
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\bin\Release\GameState4Net.CSGO.pdb
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\bin\Release\GameState4Net.dll
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\bin\Release\Newtonsoft.Json.dll
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\bin\Release\Grapevine.dll
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\bin\Release\GameState4Net.pdb
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\bin\Release\Newtonsoft.Json.xml
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\obj\Release\GameState4Net.CSGO.csprojResolveAssemblyReference.cache
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\obj\Release\GameState4Net.CSGO.dll
+J:\Programming\Projects\Gamestate4Net\GameState4Net.CSGO\obj\Release\GameState4Net.CSGO.pdb

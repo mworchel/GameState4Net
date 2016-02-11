@@ -1,0 +1,7 @@
+J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Debug\GameState4Net.dll
+J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Debug\GameState4Net.pdb
+J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Debug\Grapevine.dll
+J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Debug\Newtonsoft.Json.dll
+J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Debug\Newtonsoft.Json.xml
+J:\Programming\Projects\Gamestate4Net\GameState4Net\obj\Debug\GameState4Net.dll
+J:\Programming\Projects\Gamestate4Net\GameState4Net\obj\Debug\GameState4Net.pdb
