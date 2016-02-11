@@ -1,8 +1,0 @@
-J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Release\GameState4Net.dll
-J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Release\GameState4Net.pdb
-J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Release\Grapevine.dll
-J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Release\Newtonsoft.Json.dll
-J:\Programming\Projects\Gamestate4Net\GameState4Net\bin\Release\Newtonsoft.Json.xml
-J:\Programming\Projects\Gamestate4Net\GameState4Net\obj\Release\GameState4Net.csprojResolveAssemblyReference.cache
-J:\Programming\Projects\Gamestate4Net\GameState4Net\obj\Release\GameState4Net.dll
-J:\Programming\Projects\Gamestate4Net\GameState4Net\obj\Release\GameState4Net.pdb
