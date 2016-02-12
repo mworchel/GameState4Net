@@ -69,14 +69,10 @@ namespace WpfTest
             server.Dispose();
         }
 
-        private void GameStateCallback(string json)
+        private void GameStateCallback(GameStateFrame frame)
         {
             try
             {
-                // Parse the current arriving frame
-                GameStateFrame frame = new GameStateFrame();
-                frame.FromJson(json);
-
                 var provider = frame.GetComponent<ProviderComponent>();
                 if (provider != null)
                 {

@@ -17,12 +17,8 @@ namespace TestServer {
             var server = new GameStateServer();
 
             GameStateFrame oldFrame = null;
-            server.RegisterGameStateCallback(gameState => { 
+            server.RegisterGameStateCallback(frame => { 
                 Console.WriteLine("Received gamestate");
-
-                // Parse the gamestate
-                GameStateFrame frame = new GameStateFrame();
-                frame.FromJson(gameState);
 
                 var player = frame.GetComponent<PlayerComponent>();
 
