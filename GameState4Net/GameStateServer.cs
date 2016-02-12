@@ -25,19 +25,28 @@ namespace GameState4Net
 
         public void AddGameState(string json)
         {
-            if(!string.IsNullOrEmpty(json))
+            if (string.IsNullOrEmpty(json))
             {
-                // Create a frame object and parse the json
-                GameStateFrame frame = new GameStateFrame();
-                frame.FromJson(json);
+                throw new ArgumentException("Can't process an empty gamestate");
+            }
 
-                // Let the callbacks handle the frame
-                lock (callbacks)
+            // Try to parse the gamestate frame
+            GameStateFrame frame = new GameStateFrame();
+            try
+            {
+                frame.FromJson(json);
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException("Failed parsing a frame from the provided json input", e);
+            }
+
+            // Let the callbacks handle the frame
+            lock (callbacks)
+            {
+                foreach (var callback in callbacks)
                 {
-                    foreach (var callback in callbacks)
-                    {
-                        callback(frame);
-                    }
+                    callback(frame);
                 }
             }
         }

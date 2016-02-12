@@ -25,24 +25,29 @@ namespace GameState4Net
             var content = request.GetContent();
 
             // Make sure this handler is used by a gamestate server only
-            if(server == null)
+            if (server == null)
             {
                 InternalServerError(context);
+                return;
             }
 
-            if (!string.IsNullOrEmpty(content))
-            {   
-                // At this point the content could still be no valid json/gamestate
-                // so actually we should return BadRequest...well but we don't :x
+            // We can catch this case for the server, it doesn't like empty gamestate content
+            if (string.IsNullOrEmpty(content))
+            {
+                BadRequest(context);
+                return;
+            }
 
-
+            try
+            {
+                // Let the server process the current gamestate content
                 server.AddGameState(content);
 
                 this.SendTextResponse(context, "Success");
             }
-            else
+            catch (ArgumentException)
             {
-                // If no content was sent, it is a bad request
+                // If the server can't handle the content...well it MUST be a client error :x
                 BadRequest(context);
             }
         }
