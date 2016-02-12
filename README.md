@@ -1,2 +1,4 @@
 # GameState4Net
-Game State Integration framework which can be used with Steam's gamestate integration
+Framework which can be used to utilize Steam's Game State Integration with C#.
+The Gamestate Integration currently works with CS:GO only.
+
