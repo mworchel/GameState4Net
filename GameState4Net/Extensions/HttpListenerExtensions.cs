@@ -25,4 +25,18 @@ namespace GameState4Net
             return content;
         }
     }
+
+	public static class HttpListenerResponseExtensions
+	{
+		public static void SendContent(this HttpListenerResponse self, string content)
+		{
+			if (self.OutputStream != null)
+			{
+				using (StreamWriter writer = new StreamWriter(self.OutputStream))
+				{
+					writer.Write(content);
+				}
+			}
+		}
+	}
 }

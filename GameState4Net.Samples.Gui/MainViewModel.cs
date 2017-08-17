@@ -21,7 +21,7 @@ namespace WpfTest
     {
         private const double BombTimer = 40.00;
 
-        private GameStateServer server;
+        private GameStateServer<CsGoGameStateFrame> server;
         private DateTime? bombPlantedTime = null;
         private object bombPlantedTimeMutex = new object();
         private bool bombIsPlanted = false;
@@ -39,13 +39,13 @@ namespace WpfTest
         private string mapName = null;
 
         private bool weaponComponentIsActive = false;
-        private Weapon activeWeapon = null;
+        private WeaponComponent activeWeapon = null;
 
         public MainViewModel()
         {
             if (!IsInDesignMode)
             {
-                server = new GameStateServer();
+                server = new GameStateServer<CsGoGameStateFrame>();
                 server.RegisterGameStateCallback(GameStateCallback);
                 server.Start();
             } else
@@ -66,35 +66,34 @@ namespace WpfTest
             base.Cleanup();
 
             server.Stop();
-            server.Dispose();
         }
 
-        private void GameStateCallback(GameStateFrame frame)
+        private void GameStateCallback(CsGoGameStateFrame frame)
         {
             try
             {
-                var provider = frame.GetComponent<ProviderComponent>();
+                var provider = frame.Provider;
                 if (provider != null)
                 {
                     ProviderComponentIsActive = true;
                     ProviderName = provider.Name;
                 }
 
-                var player = frame.GetComponent<PlayerComponent>();
+                var player = frame.Player;
                 if(player != null)
                 {
                     PlayerComponentIsActive = true;
                     PlayerName = player.Name;
 
-                    var weapons = player.GetComponent<PlayerWeaponsComponent>();
+                    var weapons = player.Weapons;
                     if (weapons != null)
                     {
-                        ActiveWeapon = weapons.Weapons.FirstOrDefault(w => w.State == WeaponState.Active || w.State == WeaponState.Reloading);
+                        ActiveWeapon = weapons.FirstOrDefault(w => w.State == WeaponState.Active || w.State == WeaponState.Reloading);
                         WeaponComponentIsActive = ActiveWeapon != null && ActiveWeapon.AmmoClip.HasValue && ActiveWeapon.AmmoClipMax.HasValue;
                         RaisePropertyChangedOnUiThread(() => LowAmmo);
                     }
 
-                    var state = player.GetComponent<PlayerStateComponent>();
+                    var state = player.State;
                     if(state != null)
                     {
                         PlayerStateComponentIsActive = true;
@@ -102,7 +101,7 @@ namespace WpfTest
                     }
                 }
 
-                var round = frame.GetComponent<RoundComponent>();
+                var round = frame.Round;
                 if (round != null)
                 {
                     switch (round.Bomb)
@@ -285,7 +284,7 @@ namespace WpfTest
             get { return weaponComponentIsActive; }
             set { weaponComponentIsActive = value; RaisePropertyChangedOnUiThread(() => WeaponComponentIsActive); }
         }
-        public Weapon ActiveWeapon
+        public WeaponComponent ActiveWeapon
         {
             get
             {

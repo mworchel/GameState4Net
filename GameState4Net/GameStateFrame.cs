@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameState4Net.Common;
+using Newtonsoft.Json.Linq;
 
 namespace GameState4Net
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class GameStateFrame : GameStateComponentContainer
-    {
-        private string json;
+	/// <summary>
+	/// 
+	/// </summary>
+	public class GameStateFrame : GameStateComponent
+	{
+		public GameStateFrame(string json)
+			: base(json)
+		{
+			DeserializeProperties();
+		}
 
-        public GameStateFrame()
-            : base("")
-        { }
-
-
-        public override void FromJson(string json)
-        {
-            base.FromJson(json);
-
-            this.json = json;
-        }
+		public GameStateFrame(JObject jsonObject)
+			: base(jsonObject)
+		{
+			DeserializeProperties();
+		}
 
 
-        public string Json { get { return json; } }
-    }
+		[GameStateComponentValue("provider")]
+		public ProviderComponent Provider { get; protected set; }
+	}
 }

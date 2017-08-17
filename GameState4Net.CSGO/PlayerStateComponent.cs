@@ -1,78 +1,56 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameState4Net.CSGO
 {
-    public class PlayerStateComponent : IGameStateComponent
+	public class PlayerStateComponent : GameStateComponent
     {
-        private const string HealthFieldId = "health";
+		public PlayerStateComponent(string json)
+			: base(json)
+		{
+			DeserializeProperties();
+		}
 
-        private const string ArmorFieldId = "armor";
-
-        private const string HelmetFieldId = "helmet";
-
-        private const string FlashedFieldId = "flashed";
-
-        private const string SmokedFieldId = "smoked";
-
-        private const string BurningFieldId = "burning";
-
-        private const string MoneyFieldId = "money";
-
-        private const string RoundKillsFieldId = "round_kills";
-
-        private const string RoundKillsHSFieldId = "round_killhs";
+		public PlayerStateComponent(JObject jsonObject)
+			: base(jsonObject)
+		{
+			DeserializeProperties();
+		}
 
 
-        public void FromJson(string json)
-        {
-            JObject o = JObject.Parse(json);
+		//health ;int, 0-100, current HP
+		[GameStateComponentValue("health")]
+        public int? Health { get; protected set; }
 
-            Health = o.Value<int?>(HealthFieldId);
-            Armor = o.Value<int?>(ArmorFieldId);
-            Helmet = o.Value<bool?>(HelmetFieldId);
+		//armor ;int, 0-100, current armor
+		[GameStateComponentValue("armor")]
+		public int? Armor { get; protected set; }
 
-            Flashed = o.Value<int?>(FlashedFieldId);
-            Smoked = o.Value<int?>(SmokedFieldId);
-            Burning = o.Value<int?>(BurningFieldId);
+		//helmet ;bool, true/false if they have helm armor
+		[GameStateComponentValue("helmet")]
+		public bool? Helmet { get; protected set; }
 
-            Money = o.Value<int?>(MoneyFieldId);
-            RoundKills = o.Value<int?>(RoundKillsFieldId);
-            RoundKillsHS = o.Value<int?>(RoundKillsHSFieldId);
-        }
+		//flashed ;int, 0-255 depending on how flashed the player is
+		[GameStateComponentValue("flashed")]
+		public int? Flashed { get; protected set; }
 
-        public string ComponentIdentifier { get { return "state"; } }
+		//smoked ;same as above, but for smoke
+		[GameStateComponentValue("smoked")]
+		public int? Smoked { get; protected set; }
 
+		//burning ;same as above, but for fire
+		[GameStateComponentValue("burning")]
+		public int? Burning { get; protected set; }
 
-        //health ;int, 0-100, current HP
-        public int? Health { get; private set; }
+		//money ;current money
+		[GameStateComponentValue("money")]
+		public int? Money { get; protected set; }
 
-        //armor ;int, 0-100, current armor
-        public int? Armor { get; private set; }
+		//round_kills ;how many kills the player got in that round
+		[GameStateComponentValue("round_kills")]
+		public int? RoundKills { get; protected set; }
 
-        //helmet ;bool, true/false if they have helm armor
-        public bool? Helmet { get; private set; }
-
-        //flashed ;int, 0-255 depending on how flashed the player is
-        public int? Flashed { get; private set; }
-
-        //smoked ;same as above, but for smoke
-        public int? Smoked { get; private set; }
-
-        //burning ;same as above, but for fire
-        public int? Burning { get; private set; }
-
-        //money ;current money
-        public int? Money { get; private set; }
-
-        //round_kills ;how many kills the player got in that round
-        public int? RoundKills { get; private set; }
-
-        //round_killhs ;how many headshot kills the player got (hs kills increase this and the above's number)
-        public int? RoundKillsHS { get; private set; }
+		//round_killhs ;how many headshot kills the player got (hs kills increase this and the above's number)
+		[GameStateComponentValue("round_killhs")]
+		public int? RoundKillsHS { get; protected set; }
     }
 }

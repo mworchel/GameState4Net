@@ -11,15 +11,6 @@ namespace GameState4Net
     /// </summary>
     public interface IGameStateComponent
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="json"></param>
-        void FromJson(string json);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        string ComponentIdentifier { get; }
+		TValue GetValue<TValue>(string key);
     }
 }
