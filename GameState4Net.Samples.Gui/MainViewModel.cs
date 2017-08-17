@@ -21,7 +21,7 @@ namespace WpfTest
     {
         private const double BombTimer = 40.00;
 
-        private GameStateServer<CsGoGameStateFrame> server;
+        private GameStateListener<CsGoGameStateFrame> listener;
         private DateTime? bombPlantedTime = null;
         private object bombPlantedTimeMutex = new object();
         private bool bombIsPlanted = false;
@@ -45,9 +45,9 @@ namespace WpfTest
         {
             if (!IsInDesignMode)
             {
-                server = new GameStateServer<CsGoGameStateFrame>();
-                server.RegisterGameStateCallback(GameStateCallback);
-                server.Start();
+                listener = new GameStateListener<CsGoGameStateFrame>();
+                listener.AddGameStateCallback(GameStateCallback);
+                listener.Start();
             } else
             {
                 ProviderComponentIsActive = true;
@@ -65,7 +65,7 @@ namespace WpfTest
         {
             base.Cleanup();
 
-            server.Stop();
+            listener.Stop();
         }
 
         private void GameStateCallback(CsGoGameStateFrame frame)

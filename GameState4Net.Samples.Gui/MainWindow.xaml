@@ -46,14 +46,14 @@
                 <Grid Grid.Row="0" Visibility="{Binding PlayerStateComponentIsActive, Converter={StaticResource BooleanToVisibilityConverter}}" >
                     <StackPanel Margin="5 5">
                         <StackPanel Orientation="Horizontal">
-                            <Image VerticalAlignment="Center" Height="32" Width="32" RenderOptions.BitmapScalingMode="HighQuality" Source="health_medicine_emergency.png"/>
+                            <Image VerticalAlignment="Center" Height="32" Width="32" RenderOptions.BitmapScalingMode="HighQuality" Source="health.png"/>
                             <TextBlock Margin="3 0" VerticalAlignment="Center" FontSize="16" Text="{Binding PlayerStateComponent.Health}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Image VerticalAlignment="Center" Height="34" Width="34" RenderOptions.BitmapScalingMode="HighQuality" Source="stock-illustration-24895855-war-silhouette-icon.jpg" Visibility="{Binding PlayerStateComponent.Helmet, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+              <Image VerticalAlignment="Center" Height="34" Width="34" RenderOptions.BitmapScalingMode="HighQuality" Source="helmet.jpg" Visibility="{Binding PlayerStateComponent.Helmet, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Image VerticalAlignment="Center" Height="32" Width="32" RenderOptions.BitmapScalingMode="HighQuality" Source="bulletproof_vest.png"/>
+                            <Image VerticalAlignment="Center" Height="32" Width="32" RenderOptions.BitmapScalingMode="HighQuality" Source="vest.png"/>
                             <TextBlock Margin="3 0" VerticalAlignment="Center" FontSize="16" Text="{Binding PlayerStateComponent.Armor}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Visibility="{Binding LowAmmo, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" >

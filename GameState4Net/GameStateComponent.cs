@@ -76,7 +76,7 @@ namespace GameState4Net
 			var type = this.GetType();
 			return type.GetProperties().Where((p) => p.HasCustomAttribute<TAttribute>(true) && p.CanWrite);
 		}
-		
+
 		private void DeserializeValueProperties(IEnumerable<PropertyInfo> properties)
 		{
 			foreach (var property in properties)
@@ -102,7 +102,7 @@ namespace GameState4Net
 				// Try to get the enumerable type from the property
 				// by first probing the property type directly and then trying implemented interfaces
 				Type genericEnumerableType = null;
-				if(propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+				if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
 				{
 					genericEnumerableType = propertyType;
 				}
@@ -113,7 +113,7 @@ namespace GameState4Net
 						.FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
 				}
 
-				if(genericEnumerableType == null)
+				if (genericEnumerableType == null)
 				{
 					continue;
 				}
@@ -121,7 +121,7 @@ namespace GameState4Net
 				// Get the item type of the list represented by the property
 				Type itemType = genericEnumerableType.GetGenericArguments()[0];
 
-				if(itemType == null)
+				if (itemType == null)
 				{
 					continue;
 				}
@@ -131,18 +131,18 @@ namespace GameState4Net
 				var token = jsonObject.GetValue(attribute.Identifier);
 
 				// Validate the token
-				if(token == null || !(token is JArray))
+				if (token == null || !(token is JArray))
 				{
 					continue;
 				}
 
 				JArray array = (token as JArray);
 				IList list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType));
-				foreach(var arrayToken in array)
+				foreach (var arrayToken in array)
 				{
 					var item = GetValue(itemType, arrayToken);
 
-					if(item != null)
+					if (item != null)
 					{
 						list.Add(item);
 					}
@@ -167,7 +167,8 @@ namespace GameState4Net
 			{
 				try
 				{
-					result = Convert.ChangeType(value, type);
+					var converter = System.ComponentModel.TypeDescriptor.GetConverter(type);
+					result = converter.ConvertFromString(value);
 				}
 				catch { }
 			}

@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Grapevine.Server;
 using System.Threading;
-using GalaSoft.MvvmLight.Ioc;
 using GameState4Net;
-using GameState4Net.Common;
 using GameState4Net.CSGO;
 
 namespace TestServer
@@ -17,13 +10,12 @@ namespace TestServer
 	{
 		static void Main(string[] args)
 		{
-			var server = new GameStateServer<CsGoGameStateFrame>();
-			server.RegisterGameStateCallback(Callback);
+			var listener = new GameStateListener<CsGoGameStateFrame>();
+			listener.AddGameStateCallback(Callback);
 
-			server.Start();
-			Console.WriteLine("Server started");
-
-			while (server.IsListening)
+			listener.Start();
+			Console.WriteLine("Listening...");
+			while (listener.IsListening)
 			{
 				Thread.Sleep(500);
 			}

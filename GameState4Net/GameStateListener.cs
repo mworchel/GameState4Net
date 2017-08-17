@@ -1,33 +1,36 @@
-﻿using Grapevine.Server;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Net;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace GameState4Net
 {
-	public class GameStateServer<TGameStateFrame> where TGameStateFrame : GameStateFrame
+	public class GameStateListener<TGameStateFrame> where TGameStateFrame : GameStateFrame
 	{
 		private readonly HttpListener listener;
 
 		private List<Action<TGameStateFrame>> callbacks = new List<Action<TGameStateFrame>>();
 
 
-		public GameStateServer(string host = "localhost", string port = "1234")
+		public GameStateListener(string host = "localhost", string port = "1234")
 		{
 			listener = new HttpListener();
 			listener.Prefixes.Add("http://" + host + ":" + port + "/");
 		}
 
+
+		public bool IsListening
+		{
+			get { return listener.IsListening; }
+		}
+
+
 		public void Start()
 		{
 			if(listener.IsListening)
 			{
-				throw new InvalidOperationException("Server is already started");
+				throw new InvalidOperationException("Listener is already started");
 			}
 
 			// Start the listener 
@@ -41,26 +44,49 @@ namespace GameState4Net
 		{
 			if (!listener.IsListening)
 			{
-				throw new InvalidOperationException("Server was not yet started");
+				throw new InvalidOperationException("Listener was not yet started");
 			}
 			
 			// Stop the listener
 			listener.Stop();
 		}
 
-		public bool IsListening
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <remarks>Callbacks will most certainly be called from a thread different than the main thread</remarks>
+		/// <param name="callback"></param>
+		public void AddGameStateCallback(Action<TGameStateFrame> callback)
 		{
-			get { return listener.IsListening; }
+			lock (callbacks)
+			{
+				callbacks.Add(callback);
+			}
 		}
+
+		public bool RemoveGameStateCallback(Action<TGameStateFrame> callback)
+		{
+			lock (callbacks)
+			{
+				return callbacks.Remove(callback);
+			}
+		}
+
 
 		private void ProcessingLoop()
 		{
 			while (listener.IsListening)
 			{
-				HttpListenerContext context = listener.GetContext();
+				HttpListenerContext context = null;
+				try
+				{
+					context = listener.GetContext();
+				}
+				catch { return; }
+
 				string content = context.Request.GetContent();
 				
-				// We can catch this case for the server, it doesn't like empty gamestate content
+				// We can catch this case, the parsing doesn't like empty gamestate content
 				if (string.IsNullOrEmpty(content))
 				{
 					BadRequest(context);					
@@ -69,8 +95,8 @@ namespace GameState4Net
 				{
 					try
 					{
-						// Let the server process the current gamestate content
-						AddGameState(content);
+						// Parse and process the current gamestate frame
+						PushGameStateFrame(content);
 
 						context.Response.StatusCode = 200;
 						context.Response.StatusDescription = "Ok";
@@ -79,7 +105,7 @@ namespace GameState4Net
 					}
 					catch (ArgumentException)
 					{
-						// If the server can't handle the content...well it MUST be a client error :x
+						// If the listener can't handle the content...well it MUST be a client error
 						BadRequest(context);
 					}
 				}
@@ -87,7 +113,7 @@ namespace GameState4Net
 		}
 
 
-		private void AddGameState(string json)
+		private void PushGameStateFrame(string json)
 		{
 			// Try to parse the gamestate frame
 			TGameStateFrame frame = null;
@@ -107,19 +133,6 @@ namespace GameState4Net
 				{
 					callback(frame);
 				}
-			}
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <remarks>Callbacks will most certainly be called from a thread different than the main thread</remarks>
-		/// <param name="callback"></param>
-		public void RegisterGameStateCallback(Action<TGameStateFrame> callback)
-		{
-			lock (callbacks)
-			{
-				callbacks.Add(callback);
 			}
 		}
 
