@@ -99,11 +99,27 @@ namespace GameState4Net
 			{
 				var propertyType = property.PropertyType;
 
-				// Determine the type of items in the list represented by the property
-				Type itemType = propertyType
-					.GetInterfaces()
-					.FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-					.GetGenericArguments()[0];
+				// Try to get the enumerable type from the property
+				// by first probing the property type directly and then trying implemented interfaces
+				Type genericEnumerableType = null;
+				if(propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+				{
+					genericEnumerableType = propertyType;
+				}
+				else
+				{
+					genericEnumerableType = propertyType
+						.GetInterfaces()
+						.FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+				}
+
+				if(genericEnumerableType == null)
+				{
+					continue;
+				}
+
+				// Get the item type of the list represented by the property
+				Type itemType = genericEnumerableType.GetGenericArguments()[0];
 
 				if(itemType == null)
 				{
@@ -121,14 +137,14 @@ namespace GameState4Net
 				}
 
 				JArray array = (token as JArray);
-				ArrayList list = new ArrayList(array.Count);
+				IList list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType));
 				foreach(var arrayToken in array)
 				{
 					var item = GetValue(itemType, arrayToken);
 
 					if(item != null)
 					{
-						array.Add(item);
+						list.Add(item);
 					}
 				}
 
@@ -143,7 +159,7 @@ namespace GameState4Net
 			{
 				try
 				{
-					result = Enum.Parse(type, value);
+					result = Enum.Parse(type, value, true);
 				}
 				catch { }
 			}
