@@ -3,3 +3,8 @@
 /GameState4Net.CSGO/obj
 /GameState4Net.CSGO/bin
 /packages
+/.vs
+/GameState4Net.Samples.Console/obj
+/GameState4Net.Samples.Console/bin
+/GameState4Net.Samples.Gui/obj
+/GameState4Net.Samples.Gui/bin
